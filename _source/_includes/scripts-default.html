@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/scripts/joconut.js"></script>
+<script type="text/javascript" src="/scripts/jquery.pjax.js"></script>
 <script type="text/javascript">
 
 	$(document).ready( function(){
@@ -10,11 +10,21 @@
 			$(this).parent().siblings('span').removeClass('show')
 		})
 
-		//
-		$.joconut.container = '#wrapper'
-		$.joconut.on('afterNew', function() {
-			console.log('new')
-		})
+		// pjax
+		!function() {
+			// seta o pjax
+			$('a').pjax('#wrapper', {
+				fragment: '#wrapper',
+				timeout: 2000
+			})
+
+			// como o pjax não executa automaticamente os scripts carregados, 
+			// precisamos encapsular o que queremos executar quando a página 
+			// for carregada dentro da função "pjaxOnCompleteCallback"
+			$(document).on('pjax:complete', function() {
+				pjaxOnCompleteCallback()
+			})
+		}()
 		
 	})
 
